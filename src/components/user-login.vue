@@ -8,7 +8,7 @@
 
 <script>
 
-import {validateMail} from '@/utils.js'
+import { validateMail } from '@/utils.js'
 
 export default {
   name: 'UserLogin',
@@ -27,9 +27,9 @@ export default {
     login: function () {
       const baseURI = 'https://jsonplaceholder.typicode.com/users'
       this.$http.get(baseURI)
-      .then((result) => {
-        console.log(result.data);
-      })
+        .then((result) => {
+          console.log(result.data)
+        })
     }
   }
 }

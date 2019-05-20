@@ -17,30 +17,30 @@
 
 <script>
 // @ is an alias to /src
-import UserLogin from "@/components/user-login.vue";
+import UserLogin from '@/components/user-login.vue'
 
 const OPTIONS = {
   CREATE: 1,
   LOGIN: 2
-};
+}
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     UserLogin
   },
-  data: function() {
+  data: function () {
     return {
       options: OPTIONS,
       mode: OPTIONS.LOGIN
-    };
+    }
   },
   methods: {
-    toggleMode: function(mode) {
-      this.mode = mode;
+    toggleMode: function (mode) {
+      this.mode = mode
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
