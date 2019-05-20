@@ -4,6 +4,7 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/>
     <CreateUser> </CreateUser>
     
+    <UserLogin msg="msg example"/>
   </div>
 </template>
 
@@ -11,12 +12,14 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import CreateUser from '@/components/CreateUser.vue'
+import UserLogin from '@/components/user-login.vue'
 
 export default {
   name: 'home',
   components: {
     HelloWorld,
-    CreateUser
+    CreateUser,
+    UserLogin
   }
 }
 </script>
