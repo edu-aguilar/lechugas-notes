@@ -1,69 +1,78 @@
 <template>
-
-    <div class="login-wrapper">
+  <div class="login-wrapper">
     <div class="input-container">
-           <label for="email">Email: </label>  
-           <input v-model="mail" type="text" id="email">
-    </div>
-     <div class="input-container">
-           <label for="name">Name: </label> 
-           <input v-model="name" type="text" id="name">
+      <label for="email">Email:</label>
+      <input v-model="mail" type="text" id="email">
     </div>
     <div class="input-container">
-           <label for="password">Password: </label>  
-           <input v-model="password" type="text" id="password">
-     </div>
-      <div class="input-container">
-           <label for="birthdate">Fecha nacimiento: </label>  
-           <input v-model="birthdate" type="text" id="birthdate">
-     </div>
-            <button :disabled="!isFormFilled" type="submit" v-on:click="create" value="Create User"> Register</button>
+      <label for="name">Name:</label>
+      <input v-model="name" type="text" id="name">
     </div>
-
+    <div class="input-container">
+      <label for="password">Password:</label>
+      <input v-model="password" type="text" id="password">
+    </div>
+    <div class="input-container">
+      <label for="birthdate">Fecha nacimiento:</label>
+      <input v-model="birthdate" type="date" id="birthdate">
+    </div>
+    <button :disabled="!isFormFilled" type="submit" v-on:click="create" value="Create User">Register</button>
+  </div>
 </template>
 
 <script>
-
-import {validateMail} from '@/utils.js'
+import { validateMail } from "@/utils.js";
 
 export default {
-    name: 'CreateUser',
-    props: {
-    },
-    data: function() {
-        return {
-            mail: 'mailexample@gmail.com',
-            name: 'nameexample',
-            password: 'passwordexample',
-            birthdate: 'birthdateexample'
-        }
-    },
-    computed: {
-        isFormFilled: function() {
-            return validateMail(this.mail) && this.name && this.password && this.birthdate
-        }
-    },
-    methods: {
-        create: function () {
-            console.log("hola que tal soy colosal"+this.name)
-        }
+  name: "CreateUser",
+  props: {},
+  data: function() {
+    return {
+      mail: "mailexample@gmail.com",
+      name: "nameexample",
+      password: "passwordexample",
+      birthdate: ""
+    };
+  },
+  computed: {
+    isFormFilled: function() {
+      return (
+        validateMail(this.mail) && this.name && this.password && this.birthdate
+      );
     }
-}
-
+  },
+  methods: {
+    create: function() {
+      const baseURL = "https://jsonplaceholder.typicode.com/users";
+      const data = {
+        email: this.mail,
+        name: this.name,
+        password: this.password,
+        age: this.birthdate
+      };
+      let commonHeaders = {
+        "Content-Type": "application/json"
+      };
+      this.$http.post(baseURL, JSON.stringify(data), {
+        headers: commonHeaders
+      })
+      .then((result) => {
+          console.log(result.data)
+      });
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
-
 $space: 1rem;
 
 .login-wrapper {
   padding: $space;
-  display: flex;
-  flex-direction: column;
 }
 div.input-container {
-   display: flex;
-   flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 input + input {
@@ -72,6 +81,5 @@ input + input {
 button {
   margin-top: $space;
 }
-
 </style>
 
