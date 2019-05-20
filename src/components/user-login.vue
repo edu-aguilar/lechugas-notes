@@ -12,9 +12,6 @@ import {validateMail} from '@/utils.js'
 
 export default {
   name: 'UserLogin',
-  props: {
-    msg: String
-  },
   data: function () {
     return {
       mail: 'edu@domain.com',
