@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrapper">
-    <input v-model="mail" type="email" name="email" id>
-    <input v-model="password" type="password" name="pw" id>
+    <input v-model="mail" type="email" name="email">
+    <input v-model="password" type="password" name="pw">
     <button :disabled="!isFormFilled" v-on:click="login">Login</button>
   </div>
 </template>

@@ -21,44 +21,45 @@
 </template>
 
 <script>
-import { validateMail } from "@/utils.js";
+
+import { validateMail, validateDate } from '@/utils.js'
 
 export default {
-  name: "CreateUser",
-  data: function() {
+  name: 'CreateUser',
+  data: function () {
     return {
-      mail: "mailexample@gmail.com",
-      name: "nameexample",
-      password: "passwordexample",
-      birthdate: ""
-    };
+      mail: 'mailexample@gmail.com',
+      name: 'nameexample',
+      password: 'passwordexample',
+      birthdate: ''
+    }
   },
   computed: {
-    isFormFilled: function() {
-      return validateMail(this.mail) && this.name && this.password && this.birthdate;
+    isFormFilled: function () {
+      return validateMail(this.mail) && this.name && this.password && validateDate(this.birthdate)
     }
   },
   methods: {
-    create: function() {
-      const baseURL = "https://jsonplaceholder.typicode.com/users";
+    create: function () {
+      const baseURL = 'https://jsonplaceholder.typicode.com/users'
       const data = {
         email: this.mail,
         name: this.name,
         password: this.password,
         age: this.birthdate
-      };
+      }
       let commonHeaders = {
-        "Content-Type": "application/json"
-      };
+        'Content-Type': 'application/json'
+      }
       this.$http.post(baseURL, JSON.stringify(data), {
         headers: commonHeaders
       })
-      .then((result) => {
+        .then((result) => {
           console.log(result.data)
-      });
+        })
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
@@ -71,7 +72,6 @@ div.input-container {
   display: flex;
   flex-direction: column;
 }
-
 input + input {
   margin-top: $space;
 }
@@ -79,4 +79,3 @@ button {
   margin-top: $space;
 }
 </style>
-
