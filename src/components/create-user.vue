@@ -22,7 +22,7 @@
 
 <script>
 
-import { validateMail, isBefore } from '@/utils.js'
+import { validateMail, isBefore, getYearsFromDate, routeChanger } from '@/utils.js'
 
 export default {
   name: 'CreateUser',
@@ -40,24 +40,26 @@ export default {
     }
   },
   methods: {
+    routerToHome: function () {
+      routeChanger(this, '/')
+    },
     create: function () {
-      const baseURL = 'https://adrianfernandezdz-task-manager.herokuapp.com/users'
+      const baseURL = 'http://localhost:3000/users'
       const data = {
         email: this.mail,
         name: this.name,
         password: this.password,
-        age: this.birthdate
+        age: getYearsFromDate(this.birthdate)
       }
       let commonHeaders = {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       }
       this.$http.post(baseURL, JSON.stringify(data), {
         headers: commonHeaders
       })
         .then((result) => {
           console.log(result.data)
+          this.routerToHome()
         })
     }
   }
