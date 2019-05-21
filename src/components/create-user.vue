@@ -22,7 +22,7 @@
 
 <script>
 
-import { validateMail, validateDate } from '@/utils.js'
+import { validateMail, isBefore } from '@/utils.js'
 
 export default {
   name: 'CreateUser',
@@ -36,12 +36,12 @@ export default {
   },
   computed: {
     isFormFilled: function () {
-      return validateMail(this.mail) && this.name && this.password && validateDate(this.birthdate)
+      return validateMail(this.mail) && this.name && this.password && isBefore(this.birthdate)
     }
   },
   methods: {
     create: function () {
-      const baseURL = 'https://jsonplaceholder.typicode.com/users'
+      const baseURL = 'https://adrianfernandezdz-task-manager.herokuapp.com/users'
       const data = {
         email: this.mail,
         name: this.name,
@@ -49,7 +49,9 @@ export default {
         age: this.birthdate
       }
       let commonHeaders = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Origin': '*'
       }
       this.$http.post(baseURL, JSON.stringify(data), {
         headers: commonHeaders
