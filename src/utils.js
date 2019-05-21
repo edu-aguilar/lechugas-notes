@@ -13,7 +13,7 @@ export const getYearsFromDate = (formDate) => {
   return moment().diff(formDate, 'years')
 }
 
-export const enrouter = function (componentContext, destiny) {
+export const routeChanger = function (componentContext, destiny) {
   const context = componentContext
   context.$router.push(destiny)
 }
