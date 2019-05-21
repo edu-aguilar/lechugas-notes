@@ -1,5 +1,5 @@
 <template>
-  <div class="login-wrapper">
+  <div class="create-user-wrapper">
     <div class="input-container">
       <label for="email">Email:</label>
       <input v-model="mail" type="text" id="email">
@@ -25,7 +25,6 @@ import { validateMail } from "@/utils.js";
 
 export default {
   name: "CreateUser",
-  props: {},
   data: function() {
     return {
       mail: "mailexample@gmail.com",
@@ -36,9 +35,7 @@ export default {
   },
   computed: {
     isFormFilled: function() {
-      return (
-        validateMail(this.mail) && this.name && this.password && this.birthdate
-      );
+      return validateMail(this.mail) && this.name && this.password && this.birthdate;
     }
   },
   methods: {
@@ -67,7 +64,7 @@ export default {
 <style scoped lang="scss">
 $space: 1rem;
 
-.login-wrapper {
+.create-user-wrapper {
   padding: $space;
 }
 div.input-container {
