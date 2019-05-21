@@ -17,7 +17,7 @@
       <input v-model="birthdate" type="date" id="birthdate">
     </div>
     <button :disabled="!isFormFilled" type="submit" v-on:click="create" value="Create User">Register</button>
-     <div class="create-user-error"> </div>
+     <div class="create-user-message"> </div>
   </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     return {
       mail: 'adrianfernandezdiazg@gmail.com',
       name: 'nameexample',
-      password: 'asdas',
+      password: 'asdasdasdas',
       birthdate: ''
     }
   },
@@ -59,17 +59,18 @@ export default {
         headers: commonHeaders
       })
         .then((result) => {
-          document.querySelector('.create-user-error').style.color = 'green'
-          document.querySelector('.create-user-error').textContent = 'Enhorabuena! El registro ha salido bien. Vamos a redirigirte...'
+          document.querySelector('.create-user-message').style.color = 'green'
+          document.querySelector('.create-user-message').textContent = 'Enhorabuena! El registro ha salido bien. Vamos a redirigirte...'
+          console.log(result.data.token)
           setTimeout(() => { this.routerToHome() }, 3000);
           
         })
         .catch((e) => {
           const errorParsed = JSON.parse(JSON.stringify(e))
           if (errorParsed.response.data.code === 11000) {
-            document.querySelector('.create-user-error').textContent = 'Este mail ya está registrado, por favor, inténtalo con otro'
+            document.querySelector('.create-user-message').textContent = 'Este mail ya está registrado, por favor, inténtalo con otro'
           } else if (errorParsed.response.data.errors.password) {
-            document.querySelector('.create-user-error').textContent = 'La contraseña debe contener, al menos, 7 caracteres'
+            document.querySelector('.create-user-message').textContent = 'La contraseña debe contener, al menos, 7 caracteres'
           }
         })
     }
@@ -83,7 +84,7 @@ $space: 1rem;
 .create-user-wrapper {
   padding: $space;
 }
-.create-user-error {
+.create-user-message {
   font-size: 12px;
   color: red;
   font-style: oblique;
