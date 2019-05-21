@@ -17,3 +17,8 @@ export const routeChanger = function (componentContext, destiny) {
   const context = componentContext
   context.$router.push(destiny)
 }
+
+export const isACorrectName = function (input) {
+  var letters = /^[A-Za-z-\s\u00E0-\u00FC]+$/
+  return input.match(letters)
+}
