@@ -8,7 +8,7 @@
 
 <script>
 
-import { validateMail } from '@/utils.js'
+import { validateMail, routeChanger } from '@/utils.js'
 
 export default {
   name: 'UserLogin',
@@ -24,11 +24,24 @@ export default {
     }
   },
   methods: {
+    routerToHome: function () {
+      routeChanger(this, '/')
+    },
     login: function () {
-      const baseURI = 'https://jsonplaceholder.typicode.com/users'
-      this.$http.get(baseURI)
+      const baseURL = 'http://localhost:3000/users/login'
+      const data = {
+        email: this.mail,
+        password: this.password
+      }
+      let commonHeaders = {
+        'Content-Type': 'application/json'
+      }
+      this.$http.post(baseURL, JSON.stringify(data), {
+        headers: commonHeaders
+      })
         .then((result) => {
           console.log(result.data)
+          this.routerToHome()
         })
     }
   }
