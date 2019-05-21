@@ -6,7 +6,7 @@
     </div>
     <div class="input-container">
       <label for="name">Name:</label>
-      <input v-model="name" type="text" id="name">
+      <input v-model="name" id="name">
     </div>
     <div class="input-container">
       <label for="password">Password:</label>
@@ -17,26 +17,27 @@
       <input v-model="birthdate" type="date" id="birthdate">
     </div>
     <button :disabled="!isFormFilled" type="submit" v-on:click="create" value="Create User">Register</button>
+     <div class="create-user-error"> </div>
   </div>
 </template>
 
 <script>
 
-import { validateMail, isBefore, getYearsFromDate, routeChanger } from '@/utils.js'
+import { validateMail, isBefore, getYearsFromDate, routeChanger, isACorrectName } from '@/utils.js'
 
 export default {
   name: 'CreateUser',
   data: function () {
     return {
-      mail: 'mailexample@gmail.com',
+      mail: 'adrianfernandezdiazg@gmail.com',
       name: 'nameexample',
-      password: 'passwordexample',
+      password: 'asdas',
       birthdate: ''
     }
   },
   computed: {
     isFormFilled: function () {
-      return validateMail(this.mail) && this.name && this.password && isBefore(this.birthdate)
+      return validateMail(this.mail) && isACorrectName(this.name) && this.password && isBefore(this.birthdate)
     }
   },
   methods: {
@@ -58,8 +59,18 @@ export default {
         headers: commonHeaders
       })
         .then((result) => {
-          console.log(result.data)
-          this.routerToHome()
+          document.querySelector('.create-user-error').style.color = 'green'
+          document.querySelector('.create-user-error').textContent = 'Enhorabuena! El registro ha salido bien. Vamos a redirigirte...'
+          setTimeout(() => { this.routerToHome() }, 3000);
+          
+        })
+        .catch((e) => {
+          const errorParsed = JSON.parse(JSON.stringify(e))
+          if (errorParsed.response.data.code === 11000) {
+            document.querySelector('.create-user-error').textContent = 'Este mail ya está registrado, por favor, inténtalo con otro'
+          } else if (errorParsed.response.data.errors.password) {
+            document.querySelector('.create-user-error').textContent = 'La contraseña debe contener, al menos, 7 caracteres'
+          }
         })
     }
   }
@@ -71,6 +82,11 @@ $space: 1rem;
 
 .create-user-wrapper {
   padding: $space;
+}
+.create-user-error {
+  font-size: 12px;
+  color: red;
+  font-style: oblique;
 }
 div.input-container {
   display: flex;
