@@ -8,3 +8,12 @@ export const validateMail = (email) => {
 export const isBefore = (formDate) => {
   return moment(formDate).isBefore()
 }
+
+export const getYearsFromDate = (formDate) => {
+  return moment().diff(formDate, 'years')
+}
+
+export const enrouter = function (componentContext, destiny) {
+  const context = componentContext
+  context.$router.push(destiny)
+}
