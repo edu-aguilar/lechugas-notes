@@ -37,12 +37,10 @@ export default {
   },
   computed: {
     isFormFilled: function () {
-      return (
-        validateMail(this.mail) &&
+      return validateMail(this.mail) &&
         isACorrectName(this.name) &&
         this.password &&
         isBefore(this.birthdate)
-      )
     }
   },
   methods: {
