@@ -34,7 +34,7 @@ export default {
       this._printLogingUserMessage('green', response.data.message)
       this._setAuthToken(response.data.token)
       setTimeout(() => {
-        this.$router.push('/home')
+        this.$router.push('/profile')
       }, 3000)
     },
     _onUserLogedError (req) {
