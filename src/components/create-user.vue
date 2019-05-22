@@ -23,7 +23,8 @@
 
 <script>
 
-import { validateMail, isBefore, getYearsFromDate, routeChanger, isACorrectName } from '@/utils.js'
+import { validateMail, isBefore, isACorrectName } from '@/utils.js'
+import { createUser } from '@/user.js'
 
 export default {
   name: 'CreateUser',
@@ -41,38 +42,11 @@ export default {
     }
   },
   methods: {
-    routerToHome: function () {
-      routeChanger(this, '/')
-    },
     create: function () {
-      const baseURL = 'http://localhost:3000/users'
-      const data = {
-        email: this.mail,
-        name: this.name,
-        password: this.password,
-        age: getYearsFromDate(this.birthdate)
-      }
-      let commonHeaders = {
-        'Content-Type': 'application/json'
-      }
-      this.$http.post(baseURL, JSON.stringify(data), {
-        headers: commonHeaders
-      })
-        .then((result) => {
-          document.querySelector('.create-user-message').style.color = 'green'
-          document.querySelector('.create-user-message').textContent = 'Enhorabuena! El registro ha salido bien. Vamos a redirigirte...'
-          console.log(result.data.token)
-          setTimeout(() => { this.routerToHome() }, 3000);
-          
-        })
-        .catch((e) => {
-          const errorParsed = JSON.parse(JSON.stringify(e))
-          if (errorParsed.response.data.code === 11000) {
-            document.querySelector('.create-user-message').textContent = 'Este mail ya está registrado, por favor, inténtalo con otro'
-          } else if (errorParsed.response.data.errors.password) {
-            document.querySelector('.create-user-message').textContent = 'La contraseña debe contener, al menos, 7 caracteres'
-          }
-        })
+      createUser(this, this.mail, this.name, this.password, this.birthdate)
+    },
+    routerToHome: function () {
+      this.$router.push('/home')
     }
   }
 }
