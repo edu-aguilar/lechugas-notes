@@ -26,10 +26,26 @@ export default {
   },
   methods: {
     login: function () {
-      loginUser(this, this.mail, this.password)
+      loginUser(this.mail, this.password)
+        .then(this._onUserLoged)
+        .catch(this._onUserLogedError)
     },
-    routerToHome: function () {
-      this.$router.push('/home')
+    _onUserLoged (response) {
+      this._printLogingUserMessage('green', response.data.message)
+      this._setAuthToken(response.data.token)
+      setTimeout(() => {
+        this.$router.push('/home')
+      }, 3000)
+    },
+    _onUserLogedError (req) {
+      this._printLogingUserMessage('red', req.response.data)
+    },
+    _printLogingUserMessage (color, text) {
+      document.querySelector('.login-message').style.color = color
+      document.querySelector('.login-message').textContent = text
+    },
+    _setAuthToken (token) {
+      this.$http.defaults.headers.common['Authorization'] = token
     }
   }
 }
