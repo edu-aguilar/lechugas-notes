@@ -4,11 +4,11 @@ import router from './router'
 import './registerServiceWorker'
 import axios from 'axios'
 
+const httpMethods = ['post', 'get', 'patch', 'delete']
+httpMethods.forEach(method => { axios.defaults.headers[method]['Content-Type'] = 'application/json' })
+
 Vue.prototype.$http = axios
-Vue.prototype.$http.defaults.headers.post['Content-Type'] = 'application/json'
-Vue.prototype.$http.defaults.headers.get['Content-Type'] = 'application/json'
-Vue.prototype.$http.defaults.headers.patch['Content-Type'] = 'application/json'
-Vue.prototype.$http.defaults.headers.delete['Content-Type'] = 'application/json'
+
 Vue.config.productionTip = false
 
 new Vue({

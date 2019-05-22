@@ -17,12 +17,11 @@
       <input v-model="birthdate" type="date" id="birthdate">
     </div>
     <button :disabled="!isFormFilled" type="submit" v-on:click="create" value="Create User">Register</button>
-     <div class="create-user-message"> </div>
+    <div class="create-user-message"></div>
   </div>
 </template>
 
 <script>
-
 import { validateMail, isBefore, isACorrectName } from '@/utils.js'
 import { createUser } from '@/user.js'
 
@@ -38,15 +37,36 @@ export default {
   },
   computed: {
     isFormFilled: function () {
-      return validateMail(this.mail) && isACorrectName(this.name) && this.password && isBefore(this.birthdate)
+      return (
+        validateMail(this.mail) &&
+        isACorrectName(this.name) &&
+        this.password &&
+        isBefore(this.birthdate)
+      )
     }
   },
   methods: {
     create: function () {
-      createUser(this, this.mail, this.name, this.password, this.birthdate)
+      createUser(this.mail, this.name, this.password, this.birthdate)
+        .then(this._onUserCreated)
+        .catch(this._onUserCreatedError)
     },
-    routerToHome: function () {
-      this.$router.push('/home')
+    _onUserCreated (response) {
+      this._printCreatingUserMessage('green', response.data.message)
+      this._setAuthToken(response.data.token)
+      setTimeout(() => {
+        this.$router.push('/home')
+      }, 3000)
+    },
+    _onUserCreatedError (req) {
+      this._printCreatingUserMessage('red', req.response.data)
+    },
+    _printCreatingUserMessage (color, text) {
+      document.querySelector('.create-user-message').style.color = color
+      document.querySelector('.create-user-message').textContent = text
+    },
+    _setAuthToken (token) {
+      this.$http.defaults.headers.common['Authorization'] = token
     }
   }
 }
