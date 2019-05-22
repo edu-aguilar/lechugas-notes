@@ -5,6 +5,7 @@ import './registerServiceWorker'
 import axios from 'axios'
 
 Vue.prototype.$http = axios
+Vue.prototype.$http.defaults.headers.common['Content-Type'] = 'application/json';
 
 Vue.config.productionTip = false
 
