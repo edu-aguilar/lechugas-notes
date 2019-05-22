@@ -13,7 +13,6 @@ export const createUser = function (componentContext, mail, name, password, birt
       document.querySelector('.create-user-message').style.color = 'green'
       document.querySelector('.create-user-message').textContent = result.data.message
       componentContext.$http.defaults.headers.common['Authorization'] = result.data.token
-      console.log(componentContext.$http.defaults.headers.get['Authorization'])
       setTimeout(() => { componentContext.routerToHome() }, 3000)
     })
     .catch((e) => {
