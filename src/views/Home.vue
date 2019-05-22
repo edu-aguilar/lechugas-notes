@@ -1,14 +1,13 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-
     <div class="tabs">
       <div class="header">
         <button @click="toggleMode(options.CREATE)">crear usuario</button>
         <button @click="toggleMode(options.LOGIN)">login usuario</button>
       </div>
       <div class="content">
-        <p v-if="mode === options.CREATE">Formulario creación usuario</p>
+        <CreateUser v-if="mode === options.CREATE"/>
         <UserLogin v-if="mode === options.LOGIN"/>
       </div>
     </div>
@@ -17,6 +16,7 @@
 
 <script>
 // @ is an alias to /src
+import CreateUser from '@/components/create-user.vue'
 import UserLogin from '@/components/user-login.vue'
 
 const OPTIONS = {
@@ -27,6 +27,7 @@ const OPTIONS = {
 export default {
   name: 'home',
   components: {
+    CreateUser,
     UserLogin
   },
   data: function () {

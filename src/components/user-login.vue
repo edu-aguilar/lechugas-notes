@@ -1,14 +1,15 @@
 <template>
   <div class="login-wrapper">
-    <input v-model="mail" type="email" name="email" id>
-    <input v-model="password" type="password" name="pw" id>
+    <input v-model="mail" type="email" name="email">
+    <input v-model="password" type="password" name="pw">
     <button :disabled="!isFormFilled" v-on:click="login">Login</button>
+    <div class="login-message"> </div>
   </div>
 </template>
 
 <script>
 
-import { validateMail } from '@/utils.js'
+import { validateMail, routeChanger } from '@/utils.js'
 
 export default {
   name: 'UserLogin',
@@ -24,11 +25,30 @@ export default {
     }
   },
   methods: {
+    routerToHome: function () {
+      routeChanger(this, '/About')
+    },
     login: function () {
-      const baseURI = 'https://jsonplaceholder.typicode.com/users'
-      this.$http.get(baseURI)
+      const baseURL = 'http://localhost:3000/users/login'
+      const data = {
+        email: this.mail,
+        password: this.password
+      }
+      let commonHeaders = {
+        'Content-Type': 'application/json'
+      }
+      this.$http.post(baseURL, JSON.stringify(data), {
+        headers: commonHeaders
+      })
         .then((result) => {
-          console.log(result.data)
+          document.querySelector('.login-message').style.color = 'green'
+          document.querySelector('.login-message').textContent = 'Enhorabuena! El login ha sido correcto. Vamos a redirigirte...'
+          setTimeout(() => { this.routerToHome() }, 3000);
+
+          console.log(result)
+        })
+        .catch((e) => {
+          document.querySelector(".login-message").textContent = "Usuario y/o contraseña incorrectos. Por favor, inténtalo de nuevo"
         })
     }
   }
@@ -43,6 +63,11 @@ $space: 1rem;
   padding: $space;
   display: flex;
   flex-direction: column;
+}
+.login-message {
+  font-size: 12px;
+  color: red;
+  font-style: oblique;
 }
 input + input {
   margin-top: $space;
