@@ -21,7 +21,7 @@ export default {
     logOut: function () {
       clearSession()
       this._clearAuthToken()
-      this.$router.push('/home')
+      this.$router.push('/')
     },
     _clearAuthToken () {
       this.$http.defaults.headers.common['Authorization'] = null
