@@ -5,7 +5,7 @@
         <p> Description: {{note.description}} </p>
         <p> Completed: {{note.completed}} <p>
         <p> Creation date: {{note.createdAt}} <p>
-        <p> Last update: {{note.updatedAt.substring(0,10)}} </p>
+        <p> Last update: {{note.updatedAt}} </p>
     </dl>
   </div>
 </template>
@@ -16,7 +16,6 @@ export default {
   name: 'ShowNotes',
   data: function () {
     return {
-      name: 'NOTES',
       notes: []
     }
   },
@@ -29,7 +28,6 @@ export default {
   methods: {
     _onNotesRecover (response) {
       this._printNotes(response.data)
-      // notesvacias
     },
     _onNotesRecoverError () {
       document.querySelector('.notes-container').style.color = 'red'

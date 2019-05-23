@@ -2,7 +2,6 @@
   <div class="user-profile">
     <h1>This is the profile view</h1>
     <div class="content">
-      Contenido
        <ShowNotes></ShowNotes>
     </div>
   </div>
