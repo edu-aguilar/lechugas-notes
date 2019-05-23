@@ -6,10 +6,10 @@
 export default {
 name: 'DeleteNoteButton',
 methods: {
-_displayDeleteWarningDiv () {
-  this.$emit('displayWarningDiv')
-}
-}
+  _displayDeleteWarningDiv () {
+    this.$emit('displayWarningDiv')
+  }
+  }
 }
 </script>
 

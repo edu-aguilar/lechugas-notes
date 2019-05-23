@@ -2,14 +2,14 @@
 <div class="user-profile-view">
   <h1>This is the profile view</h1>
   <div class="notes-container">
-       <Note v-for="(note, index) in notes" :key="note.id" :notesFormated="note" :index="index"></Note>
+       <Note v-for="(note, index) in notes" :key="note._id" :notesFormated="note" :index="index" v-on:deleteNote="_deleteNote"></Note>
    </div>
 </div>
 </template>
 
 <script>
 import Note from '@/components/note.vue'
-import { getNotes } from '@/notes.js'
+import { getNotes, deleteNote } from '@/notes.js'
 
 export default {
   name: 'userprofile',
@@ -45,7 +45,20 @@ export default {
         note.completed === false ? note.completed = 'No' : note.completed = 'Yes'
         return note
       })
-    }
+    },
+    _deleteNote (key) {
+      deleteNote(key)
+      .then(() => this._onNoteDeleteSuccess(key))
+      .catch(this._onNoteDeleteError)
+    },
+      _onNoteDeleteSuccess (key) {
+        this.notes = this.notes.filter((note) => {
+          return note._id !== key
+        })
+      },
+      _onNoteDeleteError (req) {
+        alert(req.response.data)
+      }
   }
 }
 </script>
