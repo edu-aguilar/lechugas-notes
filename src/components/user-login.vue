@@ -15,8 +15,8 @@ export default {
   name: 'UserLogin',
   data: function () {
     return {
-      mail: 'edu@domain.com',
-      password: 'password'
+      mail: 'adrianfernandezdiazg@gmail.com',
+      password: '123123123'
     }
   },
   computed: {
