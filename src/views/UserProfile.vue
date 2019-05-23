@@ -1,6 +1,7 @@
 <template>
 <div class="user-profile-view">
   <h1>This is the profile view</h1>
+  <NoteFilter v-on:filterChanged="_filterNotes"></NoteFilter>
   <div class="notes-container">
        <Note v-for="(note, index) in notes" :key="note.id" :notesFormated="note" :index="index"></Note>
    </div>
@@ -9,12 +10,15 @@
 
 <script>
 import Note from '@/components/note.vue'
-import { getNotes } from '@/notes.js'
+import NoteFilter from '@/components/note-filter.vue'
+import { getNotes, getFilteredNotes } from '@/notes.js'
+
 
 export default {
   name: 'userprofile',
   components: {
-    Note
+    Note,
+    NoteFilter
   },
    data: function () {
     return {
@@ -45,6 +49,11 @@ export default {
         note.completed === false ? note.completed = 'No' : note.completed = 'Yes'
         return note
       })
+    },
+    _filterNotes (filters) {
+      getFilteredNotes(filters.field, filters.completed, filters.description)
+      .then(this._onNotesRecovered)
+      .catch(this._onNotesRecoveredError)
     }
   }
 }
@@ -60,6 +69,7 @@ export default {
   background-color: lightblue;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
 }
 
 </style>
