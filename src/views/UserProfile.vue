@@ -3,7 +3,7 @@
     <h1>This is the profile view</h1>
     <div class="content">
        <ShowNotes></ShowNotes>
-        <button v-on:click="logOut">Logout</button>
+        <button class="logout-button" v-on:click="logOut">Logout</button>
     </div>
   </div>
 </template>
@@ -29,3 +29,10 @@ export default {
   }
 }
 </script>
+<style>
+  button.logout-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+</style>
