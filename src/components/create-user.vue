@@ -51,9 +51,10 @@ export default {
     },
     _onUserCreated (response) {
       this._printCreatingUserMessage('green', response.data.message)
+      this.$emit('showSpinner')
       this._setAuthToken(response.data.token)
       setTimeout(() => {
-        this.$router.push('/home')
+        this.$router.push('/profile')
       }, 3000)
     },
     _onUserCreatedError (req) {

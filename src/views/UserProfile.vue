@@ -1,9 +1,10 @@
 <template>
+
 <div class="user-profile-view">
   <h1>This is the profile view</h1>
   <div class="notes-container">
-       <Note v-for="(note, index) in notes" :key="note.id" :notesFormated="note" :index="index"></Note>
-   </div>
+    <Note v-for="(note, index) in notes" :key="note.id" :notesFormated="note" :index="index"></Note>
+  </div>
 </div>
 </template>
 
@@ -45,6 +46,14 @@ export default {
         note.completed === false ? note.completed = 'No' : note.completed = 'Yes'
         return note
       })
+    },
+    logOut: function () {
+      clearSession()
+      this._clearAuthToken()
+      this.$router.push('/')
+    },
+    _clearAuthToken () {
+      this.$http.defaults.headers.common['Authorization'] = null
     }
   }
 }
@@ -61,5 +70,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 </style>

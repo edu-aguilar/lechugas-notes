@@ -7,9 +7,10 @@
         <button @click="toggleMode(options.LOGIN)">login usuario</button>
       </div>
       <div class="content">
-        <CreateUser v-if="mode === options.CREATE"/>
-        <UserLogin v-if="mode === options.LOGIN"/>
+        <CreateUser v-on:showSpinner="_showSpinner" v-if="mode === options.CREATE"/>
+        <UserLogin v-on:showSpinner="_showSpinner" v-if="mode === options.LOGIN"/>
       </div>
+      <div v-if="showSpinner" class="lds-hourglass"></div>
     </div>
   </div>
 </template>
@@ -33,12 +34,16 @@ export default {
   data: function () {
     return {
       options: OPTIONS,
-      mode: OPTIONS.LOGIN
+      mode: OPTIONS.LOGIN,
+      showSpinner: false
     }
   },
   methods: {
     toggleMode: function (mode) {
       this.mode = mode
+    },
+    _showSpinner () {
+      this.showSpinner = true;
     }
   }
 }
@@ -66,5 +71,38 @@ $border: solid 2px $vue-color;
       }
     }
   }
+  .lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
 }
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  box-sizing: border-box;
+  $color: green;
+  border: 26px solid $color;
+  border-color: $color transparent $color transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+}
+
 </style>

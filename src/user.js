@@ -22,3 +22,8 @@ export const loginUser = function (mail, password) {
 
   return axios.post(baseURL, JSON.stringify(data))
 }
+
+export const clearSession = function () {
+  const baseURL = 'http://localhost:3000/users/logout'
+  return axios.post(baseURL)
+}
