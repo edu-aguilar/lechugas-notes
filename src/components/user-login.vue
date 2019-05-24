@@ -15,8 +15,8 @@ export default {
   name: 'UserLogin',
   data: function () {
     return {
-      mail: 'edu@domain.com',
-      password: 'password'
+      mail: 'adrianfernandezdiazg@gmail.com',
+      password: '123123123'
     }
   },
   computed: {
@@ -31,6 +31,7 @@ export default {
         .catch(this._onUserLogedError)
     },
     _onUserLoged (response) {
+      this.$emit('showSpinner')
       this._printLogingUserMessage('green', response.data.message)
       this._setAuthToken(response.data.token)
       setTimeout(() => {

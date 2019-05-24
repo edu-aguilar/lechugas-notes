@@ -24,3 +24,9 @@ export const getFilteredNotes = function (field, completed, description) {
 
   return axios.get(baseURL + filters.join('&'))
 }
+
+export const deleteNote = function (key) {
+  const baseURL = `http://localhost:3000/tasks/${key}`
+
+  return axios.delete(baseURL)
+}

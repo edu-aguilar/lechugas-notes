@@ -1,9 +1,10 @@
 <template>
+
 <div class="user-profile-view">
   <h1>This is the profile view</h1>
   <NoteFilter v-on:filterChanged="_filterNotes"></NoteFilter>
   <div class="notes-container">
-       <Note v-for="(note, index) in notes" :key="note.id" :notesFormated="note" :index="index"></Note>
+     <Note v-for="(note, index) in notes" :key="note._id" :notesFormated="note" :index="index" v-on:deleteNote="_deleteNote"></Note>
    </div>
 </div>
 </template>
@@ -11,8 +12,7 @@
 <script>
 import Note from '@/components/note.vue'
 import NoteFilter from '@/components/note-filter.vue'
-import { getNotes, getFilteredNotes } from '@/notes.js'
-
+import { getNotes, getFilteredNotes, deleteNote } from '@/notes.js'
 
 export default {
   name: 'userprofile',
@@ -38,6 +38,7 @@ export default {
       const notesContainer = document.querySelector('.notes-container')
       notesContainer.style.color = 'red'
       notesContainer.textContent = 'Error en la recuperación de las notas!'
+      this.$router.push('/')
     },
     _printNotes (data) {
       this.notes = this._formatNotes(data)
@@ -55,6 +56,19 @@ export default {
       .then(this._onNotesRecovered)
       .catch(this._onNotesRecoveredError)
     }
+    _deleteNote (key) {
+      deleteNote(key)
+      .then(() => this._onNoteDeleteSuccess(key))
+      .catch(this._onNoteDeleteError)
+    },
+      _onNoteDeleteSuccess (key) {
+        this.notes = this.notes.filter((note) => {
+          return note._id !== key
+        })
+      },
+      _onNoteDeleteError (req) {
+        alert(req.response.data)
+      }
   }
 }
 </script>
@@ -71,5 +85,4 @@ export default {
   justify-content: center;
   margin-top: 10px;
 }
-
 </style>
