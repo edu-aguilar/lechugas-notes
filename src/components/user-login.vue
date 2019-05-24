@@ -31,6 +31,7 @@ export default {
         .catch(this._onUserLogedError)
     },
     _onUserLoged (response) {
+      this.$emit('showSpinner')
       this._printLogingUserMessage('green', response.data.message)
       this._setAuthToken(response.data.token)
       setTimeout(() => {
@@ -43,7 +44,6 @@ export default {
     _printLogingUserMessage (color, text) {
       document.querySelector('.login-message').style.color = color
       document.querySelector('.login-message').textContent = text
-      this.$emit('showSpinner')
     },
     _setAuthToken (token) {
       this.$http.defaults.headers.common['Authorization'] = token

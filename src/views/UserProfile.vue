@@ -5,12 +5,14 @@
   <div class="notes-container">
     <Note v-for="(note, index) in notes" :key="note.id" :notesFormated="note" :index="index"></Note>
   </div>
+  <button v-on:click="logOut">Logout</button>
 </div>
 </template>
 
 <script>
 import Note from '@/components/note.vue'
 import { getNotes } from '@/notes.js'
+import { clearSession } from '@/user.js'
 
 export default {
   name: 'userprofile',
@@ -35,6 +37,7 @@ export default {
       const notesContainer = document.querySelector('.notes-container')
       notesContainer.style.color = 'red'
       notesContainer.textContent = 'Error en la recuperación de las notas!'
+      this.$router.push('/')
     },
     _printNotes (data) {
       this.notes = this._formatNotes(data)
