@@ -31,6 +31,7 @@ export default {
         .catch(this._onUserLogedError)
     },
     _onUserLoged (response) {
+      this.$emit('showSpinner')
       this._printLogingUserMessage('green', response.data.message)
       this._setAuthToken(response.data.token)
       setTimeout(() => {

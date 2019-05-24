@@ -1,8 +1,9 @@
 <template>
+
 <div class="user-profile-view">
   <h1>This is the profile view</h1>
   <div class="notes-container">
-       <Note v-for="(note, index) in notes" :key="note._id" :notesFormated="note" :index="index" v-on:deleteNote="_deleteNote"></Note>
+     <Note v-for="(note, index) in notes" :key="note._id" :notesFormated="note" :index="index" v-on:deleteNote="_deleteNote"></Note>
    </div>
 </div>
 </template>
@@ -34,6 +35,7 @@ export default {
       const notesContainer = document.querySelector('.notes-container')
       notesContainer.style.color = 'red'
       notesContainer.textContent = 'Error en la recuperación de las notas!'
+      this.$router.push('/')
     },
     _printNotes (data) {
       this.notes = this._formatNotes(data)
@@ -74,5 +76,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 </style>
