@@ -35,13 +35,21 @@ export default {
       this._printNotes(response.data)
     },
     _onNotesRecoveredError () {
-      const notesContainer = document.querySelector('.notes-container')
       notesContainer.style.color = 'red'
       notesContainer.textContent = 'Error en la recuperación de las notas!'
       this.$router.push('/')
     },
     _printNotes (data) {
+      if(data.length === 0) {
+      this._printNoNotesAvailableMessage()
+      }else{
       this.notes = this._formatNotes(data)
+      }
+    },
+    _printNoNotesAvailableMessage () {
+      const notesContainer = document.querySelector('.notes-container')
+      notesContainer.style.color = 'grey'
+      notesContainer.textContent = 'There are no notes related to your profile!'
     },
     _formatNotes (notesArray) {
       return notesArray.map((note) => {
@@ -55,16 +63,21 @@ export default {
       getFilteredNotes(filters.field, filters.completed, filters.description)
       .then(this._onNotesRecovered)
       .catch(this._onNotesRecoveredError)
-    }
+    },
     _deleteNote (key) {
       deleteNote(key)
       .then(() => this._onNoteDeleteSuccess(key))
       .catch(this._onNoteDeleteError)
     },
       _onNoteDeleteSuccess (key) {
-        this.notes = this.notes.filter((note) => {
+        const newNotesArray = this.notes.filter((note) => {
           return note._id !== key
         })
+        if (newNotesArray.length === 0) {
+            this._printNoNotesAvailableMessage()
+          }else{
+        this.notes = newNotesArray
+        }
       },
       _onNoteDeleteError (req) {
         alert(req.response.data)
