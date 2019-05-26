@@ -1,24 +1,36 @@
 <template>
 <div class="user-profile-view">
   <h1>This is the profile view</h1>
+  <button class="show-hide-profile-button" v-on:click="_showMyProfile"> {{profileButtonText}} </button>
+     <div class="my-profile-container">
+     <MyProfile :hidden='!showProfile'></MyProfile>
   <div class="notes-container">
        <Note v-for="(note, index) in notes" :key="note.id" :notesFormated="note" :index="index"></Note>
    </div>
+</div>
 </div>
 </template>
 
 <script>
 import Note from '@/components/note.vue'
+import MyProfile from '@/components/my-profile.vue'
 import { getNotes } from '@/notes.js'
 
 export default {
   name: 'userprofile',
   components: {
-    Note
+    Note,
+    MyProfile
   },
    data: function () {
     return {
-      notes: []
+      notes: [],
+      showProfile: false,
+    }
+  },
+  computed: {
+    profileButtonText() {
+      return this.showProfile ? "Hide profile" : "Show profile"
     }
   },
    created: function () {
@@ -34,6 +46,7 @@ export default {
       const notesContainer = document.querySelector('.notes-container')
       notesContainer.style.color = 'red'
       notesContainer.textContent = 'Error en la recuperación de las notas!'
+      this.$router.push('/')
     },
     _printNotes (data) {
       this.notes = this._formatNotes(data)
@@ -45,12 +58,21 @@ export default {
         note.completed === false ? note.completed = 'No' : note.completed = 'Yes'
         return note
       })
+    },
+    _showMyProfile () {
+      this.showProfile = !this.showProfile
+      }
     }
   }
-}
 </script>
 <style>
-
+.my-profile-container {
+  position: relative;
+}
+.notes-and-myprofile-view {
+  display: flex;
+  flex-direction: row;
+}
 .notes-container {
   padding: 5px;
   display: flex;
@@ -61,5 +83,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 </style>

@@ -10,7 +10,7 @@
     </div>
     <div class="input-container">
       <label for="password">Password:</label>
-      <input v-model="password" type="text" id="password">
+      <input v-model="password" type="password" id="password">
     </div>
     <div class="input-container">
       <label for="birthdate">Fecha nacimiento:</label>

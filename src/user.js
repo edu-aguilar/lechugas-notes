@@ -22,3 +22,36 @@ export const loginUser = function (mail, password) {
 
   return axios.post(baseURL, JSON.stringify(data))
 }
+
+export const getUserAllInfo = function () {
+  const baseURL = 'http://localhost:3000/users/me'
+
+  return axios.get(baseURL)
+}
+
+export const updateUserInfo = function (email, name, age, newPassword) {
+  const baseURL = 'http://localhost:3000/users/me'
+  const data = {
+    email: email || undefined,
+    name: name || undefined,
+    age: age || undefined,
+    password: newPassword || undefined
+  }
+  return axios.patch(baseURL, JSON.stringify(data))
+}
+
+export const uploadUserAvatar = function (avatar) {
+  const baseURL = 'http://localhost:3000/users/me/avatar'
+  const formData = new FormData()
+  formData.append('avatar', avatar)
+
+  return axios.post(baseURL, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+
+//   var formData = new FormData();
+// var imagefile = document.querySelector(‘#file’);
+// formData.append(“image”, imagefile.files[0]);
+}
