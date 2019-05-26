@@ -33,14 +33,14 @@ export default {
     }
   },
   props: {
-      notesFormated: {
-        _id: '',
-        description:'',
-        completed: '',
-        createdAt: '',
-        updateAt: ''
-      },
-      index: 0,
+    notesFormated: {
+      _id: '',
+      description: '',
+      completed: '',
+      createdAt: '',
+      updateAt: ''
+    },
+    index: 0
   },
   methods: {
     displayWarningDiv () {

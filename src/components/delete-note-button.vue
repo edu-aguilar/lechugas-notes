@@ -4,11 +4,11 @@
 
 <script>
 export default {
-name: 'DeleteNoteButton',
-methods: {
-  _displayDeleteWarningDiv () {
-    this.$emit('displayWarningDiv')
-  }
+  name: 'DeleteNoteButton',
+  methods: {
+    _displayDeleteWarningDiv () {
+      this.$emit('displayWarningDiv')
+    }
   }
 }
 </script>

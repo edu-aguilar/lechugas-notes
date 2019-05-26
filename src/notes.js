@@ -30,3 +30,13 @@ export const deleteNote = function (key) {
 
   return axios.delete(baseURL)
 }
+
+export const createNewNote = function (completed, description) {
+  const baseURL = `http://localhost:3000/tasks`
+  const data = {
+    completed,
+    description
+  }
+
+  return axios.post(baseURL, JSON.stringify(data))
+}

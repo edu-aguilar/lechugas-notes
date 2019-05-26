@@ -33,26 +33,26 @@ export default {
   name: 'MyProfile',
   data: function () {
     return {
-        userAge: '',
-        userName: '',
-        userEmail: '',
-        userPassword: '',
-        userCreatedAt: '',
-        userUpdatedAt: '',
-        userAvatar: '',
-        editable: false,
-        editName: '',
-        editAge: '',
-        editEmail: '',
-        editPassword: '',
-        editAvatar: false,
-        newAvatar: ''
+      userAge: '',
+      userName: '',
+      userEmail: '',
+      userPassword: '',
+      userCreatedAt: '',
+      userUpdatedAt: '',
+      userAvatar: '',
+      editable: false,
+      editName: '',
+      editAge: '',
+      editEmail: '',
+      editPassword: '',
+      editAvatar: false,
+      newAvatar: ''
     }
   },
   props: {
-        hidden: true
+    hidden: true
   },
-   created: function () {
+  created: function () {
     getUserAllInfo()
       .then(this._onInfoRecovered)
       .catch(this._onInfoRecoveredError)
@@ -76,29 +76,29 @@ export default {
       const message = error.response.data.error
       console.log(message)
     },
-      _printUserInfo (data) {
-        this.editName = this.userName = data.name
-        this.editAge = this.userAge = data.age
-        this.editEmail = this.userEmail = data.email
-        this.userCreatedAt = data.createdAt.substring(0, 10)
-        this.userUpdatedAt = data.updatedAt.substring(0, 10)
-        this.userAvatar = data.avatar
+    _printUserInfo (data) {
+      this.editName = this.userName = data.name
+      this.editAge = this.userAge = data.age
+      this.editEmail = this.userEmail = data.email
+      this.userCreatedAt = data.createdAt.substring(0, 10)
+      this.userUpdatedAt = data.updatedAt.substring(0, 10)
+      this.userAvatar = data.avatar
     },
     _toggleProfileEdit () {
       this.editable = !this.editable
     },
     _saveUserModifiedInfo () {
       updateUserInfo(this.editEmail, this.editName, this.editAge, this.editPassword)
-      .then(this._onInfoRecovered)
-      .catch(this._onInfoRecoveredError)
+        .then(this._onInfoRecovered)
+        .catch(this._onInfoRecoveredError)
     },
     _toggleAvatarEdit () {
       this.editAvatar = !this.editAvatar
     },
     _saveNewAvatar (event) {
       uploadUserAvatar(event.target.files[0])
-      .then(this._onInfoRecovered)
-      .catch(this._onInfoRecoveredError)
+        .then(this._onInfoRecovered)
+        .catch(this._onInfoRecoveredError)
     }   
   }
 }

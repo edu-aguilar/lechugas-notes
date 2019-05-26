@@ -23,11 +23,11 @@ export const loginUser = function (mail, password) {
   return axios.post(baseURL, JSON.stringify(data))
 }
 
-<<<<<<< HEAD
 export const clearSession = function () {
   const baseURL = 'http://localhost:3000/users/logout'
   return axios.post(baseURL)
-=======
+}
+
 export const getUserAllInfo = function () {
   const baseURL = 'http://localhost:3000/users/me'
 
@@ -55,9 +55,4 @@ export const uploadUserAvatar = function (avatar) {
       'Content-Type': 'multipart/form-data'
     }
   })
-
-//   var formData = new FormData();
-// var imagefile = document.querySelector(‘#file’);
-// formData.append(“image”, imagefile.files[0]);
->>>>>>> feature/my-profile-component
 }

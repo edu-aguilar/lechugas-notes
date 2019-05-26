@@ -43,7 +43,7 @@ export default {
       this.mode = mode
     },
     _showSpinner () {
-      this.showSpinner = true;
+      this.showSpinner = true
     }
   }
 }

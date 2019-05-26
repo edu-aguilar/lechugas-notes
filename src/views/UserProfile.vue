@@ -2,52 +2,59 @@
 
 <div class="user-profile-view">
   <h1>This is the profile view</h1>
-<<<<<<< HEAD
   <NoteFilter v-on:filterChanged="_filterNotes"></NoteFilter>
-=======
   <button class="show-hide-profile-button" v-on:click="_showMyProfile"> {{profileButtonText}} </button>
+  <button :disabled='createNote' class="create-note-button" v-on:click="_openCreateNoteForm"> {{createNoteTextButton}}</button>
      <div class="my-profile-container">
-     <MyProfile :hidden='!showProfile'></MyProfile>
->>>>>>> feature/my-profile-component
-  <div class="notes-container">
+    <div v-if="createdNote" class="note-created"> Note created! </div>
+  <MyProfile :hidden='!showProfile'></MyProfile>
+  <div>
+  <CreateNote v-if="createNote" v-on:closecreatenoteform="_closeCreateNoteForm" v-on:createnote="_createNewNote" ></CreateNote>
+  <div v-if="!showEmptyNotesMessage" class="notes-container">
      <Note v-for="(note, index) in notes" :key="note._id" :notesFormated="note" :index="index" v-on:deleteNote="_deleteNote"></Note>
-   </div>
+  </div>
+  <div v-else class="no-notes-container">
+    No hay notas disponibles!
+    </div>
+</div>
 </div>
 </div>
 </template>
 
 <script>
+import CreateNote from '@/components/create-note.vue'
 import Note from '@/components/note.vue'
-<<<<<<< HEAD
 import NoteFilter from '@/components/note-filter.vue'
-import { getNotes, getFilteredNotes, deleteNote } from '@/notes.js'
-=======
 import MyProfile from '@/components/my-profile.vue'
-import { getNotes } from '@/notes.js'
->>>>>>> feature/my-profile-component
+import { getNotes, getFilteredNotes, deleteNote, createNewNote } from '@/notes.js'
+import { setPriority } from 'os';
 
 export default {
   name: 'userprofile',
   components: {
     Note,
-<<<<<<< HEAD
-    NoteFilter
-=======
-    MyProfile
->>>>>>> feature/my-profile-component
+    NoteFilter,
+    MyProfile,
+    CreateNote
   },
-   data: function () {
+  data: function () {
     return {
       notes: [],
       showProfile: false,
+      showEmptyNotesMessage: false,
+      createNote: false,
+      createdNote: false
     }
   },
   computed: {
-    profileButtonText() {
-      return this.showProfile ? "Hide profile" : "Show profile"
+    profileButtonText () {
+      return this.showProfile ? 'Hide profile' : 'Show profile'
+    },
+    createNoteTextButton () {
+      return this.createNote ? 'Creating a new note' : 'Create a new note'
     }
   },
-   created: function () {
+  created: function () {
     getNotes()
       .then(this._onNotesRecovered)
       .catch(this._onNotesRecoveredError)
@@ -57,61 +64,83 @@ export default {
       this._printNotes(response.data)
     },
     _onNotesRecoveredError () {
+      const notesContainer = document.querySelector('.notes-container')
       notesContainer.style.color = 'red'
       notesContainer.textContent = 'Error en la recuperación de las notas!'
       this.$router.push('/')
     },
     _printNotes (data) {
-      if(data.length === 0) {
-      this._printNoNotesAvailableMessage()
-      }else{
-      this.notes = this._formatNotes(data)
+      if (data.length === 0) {
+        this._printNoNotesAvailableMessage()
+      } else {
+        this.showEmptyNotesMessage = false
+        this.notes = this._formatNotes(data)
       }
     },
     _printNoNotesAvailableMessage () {
-      const notesContainer = document.querySelector('.notes-container')
-      notesContainer.style.color = 'grey'
-      notesContainer.textContent = 'There are no notes related to your profile!'
+      // const notesContainer = document.querySelector('.notes-container')
+      // notesContainer.style.color = 'grey'
+      // notesContainer.textContent = 'There are no notes related to your profile!'
+      this.showEmptyNotesMessage = true
     },
     _formatNotes (notesArray) {
       return notesArray.map((note) => {
         note.createdAt = note.createdAt.substring(0, 10)
         note.updatedAt = note.updatedAt.substring(0, 10)
         note.completed === false ? note.completed = 'No' : note.completed = 'Yes'
+        console.log(note)
         return note
       })
     },
-<<<<<<< HEAD
     _filterNotes (filters) {
       getFilteredNotes(filters.field, filters.completed, filters.description)
-      .then(this._onNotesRecovered)
-      .catch(this._onNotesRecoveredError)
+        .then(this._onNotesRecovered)
+        .catch(this._onNotesRecoveredError)
     },
     _deleteNote (key) {
       deleteNote(key)
-      .then(() => this._onNoteDeleteSuccess(key))
-      .catch(this._onNoteDeleteError)
+        .then(() => this._onNoteDeleteSuccess(key))
+        .catch(this._onNoteDeleteError)
     },
-      _onNoteDeleteSuccess (key) {
-        const newNotesArray = this.notes.filter((note) => {
-          return note._id !== key
-        })
-        if (newNotesArray.length === 0) {
-            this._printNoNotesAvailableMessage()
-          }else{
+    _onNoteDeleteSuccess (key) {
+      const newNotesArray = this.notes.filter((note) => {
+        return note._id !== key
+      })
+      if (newNotesArray.length === 0) {
+        this._printNoNotesAvailableMessage()
+      } else {
         this.notes = newNotesArray
-        }
-      },
-      _onNoteDeleteError (req) {
-        alert(req.response.data)
       }
-=======
+    },
+    _onNoteDeleteError (req) {
+      alert(req.response.data)
+    },
     _showMyProfile () {
       this.showProfile = !this.showProfile
-      }
+    },
+    _openCreateNoteForm () {
+      this.createNote = true
+    },
+    _createNewNote (inputs) {
+      createNewNote(inputs.completed, inputs.description)
+      .then(this._onNewNoteCreated)
+      .catch(() => alert('Error en la creación de notas! Vuelve a intentarlo de nuevo más tarde'))
+    },
+    _closeCreateNoteForm () {
+      this.createNote = false
+    },
+    _onNewNoteCreated () {
+      this._closeCreateNoteForm()
+      this.createdNote = true;
+      setTimeout(() => {
+        this.createdNote = false;
+      }, 2000)
+      getNotes()
+        .then(this._onNotesRecovered)
+        .catch(this._onNotesRecoveredError)
     }
->>>>>>> feature/my-profile-component
   }
+}
 </script>
 <style>
 .my-profile-container {
@@ -131,5 +160,16 @@ export default {
   align-items: center;
   justify-content: center;
   margin-top: 10px;
+}
+.no-notes-container {
+  padding: 5px;
+  height: auto;
+  background-color: lightblue;
+  margin-top: 10px;
+}
+div.note-created {
+  margin: 10px auto;
+  color: green;
+  width: 100px;
 }
 </style>
