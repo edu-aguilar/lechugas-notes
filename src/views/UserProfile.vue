@@ -2,27 +2,49 @@
 
 <div class="user-profile-view">
   <h1>This is the profile view</h1>
+<<<<<<< HEAD
   <NoteFilter v-on:filterChanged="_filterNotes"></NoteFilter>
+=======
+  <button class="show-hide-profile-button" v-on:click="_showMyProfile"> {{profileButtonText}} </button>
+     <div class="my-profile-container">
+     <MyProfile :hidden='!showProfile'></MyProfile>
+>>>>>>> feature/my-profile-component
   <div class="notes-container">
      <Note v-for="(note, index) in notes" :key="note._id" :notesFormated="note" :index="index" v-on:deleteNote="_deleteNote"></Note>
    </div>
+</div>
 </div>
 </template>
 
 <script>
 import Note from '@/components/note.vue'
+<<<<<<< HEAD
 import NoteFilter from '@/components/note-filter.vue'
 import { getNotes, getFilteredNotes, deleteNote } from '@/notes.js'
+=======
+import MyProfile from '@/components/my-profile.vue'
+import { getNotes } from '@/notes.js'
+>>>>>>> feature/my-profile-component
 
 export default {
   name: 'userprofile',
   components: {
     Note,
+<<<<<<< HEAD
     NoteFilter
+=======
+    MyProfile
+>>>>>>> feature/my-profile-component
   },
    data: function () {
     return {
-      notes: []
+      notes: [],
+      showProfile: false,
+    }
+  },
+  computed: {
+    profileButtonText() {
+      return this.showProfile ? "Hide profile" : "Show profile"
     }
   },
    created: function () {
@@ -59,6 +81,7 @@ export default {
         return note
       })
     },
+<<<<<<< HEAD
     _filterNotes (filters) {
       getFilteredNotes(filters.field, filters.completed, filters.description)
       .then(this._onNotesRecovered)
@@ -82,11 +105,22 @@ export default {
       _onNoteDeleteError (req) {
         alert(req.response.data)
       }
+=======
+    _showMyProfile () {
+      this.showProfile = !this.showProfile
+      }
+    }
+>>>>>>> feature/my-profile-component
   }
-}
 </script>
 <style>
-
+.my-profile-container {
+  position: relative;
+}
+.notes-and-myprofile-view {
+  display: flex;
+  flex-direction: row;
+}
 .notes-container {
   padding: 5px;
   display: flex;
