@@ -15,7 +15,7 @@ export default {
   name: 'UserLogin',
   data: function () {
     return {
-      mail: 'adrianfernandezdiazg@gmail.com',
+      mail: 'santi11@gmail.com',
       password: '123123123'
     }
   },
@@ -36,7 +36,7 @@ export default {
       this._setAuthToken(response.data.token)
       setTimeout(() => {
         this.$router.push('/profile')
-      }, 3000)
+      }, 1000)
     },
     _onUserLogedError (req) {
       this._printLogingUserMessage('red', req.response.data)
