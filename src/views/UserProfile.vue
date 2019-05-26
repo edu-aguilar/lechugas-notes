@@ -16,6 +16,7 @@
   <div v-else class="no-notes-container">
     No hay notas disponibles!
     </div>
+    <button class="log-out-button" v-on:click="_logOut"> LogOut </button>
 </div>
 </div>
 </div>
@@ -138,6 +139,10 @@ export default {
       getNotes()
         .then(this._onNotesRecovered)
         .catch(this._onNotesRecoveredError)
+    },
+    _logOut () {
+      this.$http.defaults.headers.common['Authorization'] = null
+      this.$router.push('/')
     }
   }
 }
