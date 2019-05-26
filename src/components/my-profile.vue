@@ -1,7 +1,8 @@
 <template>
   <section :class="profileClass">
     <label for="inputAvatar">
-  <img :src="avatarParsed">
+  <img class="avatar" :src="avatarParsed">
+  <div class="avatar-msg">Click on the image to change your avatar</div>
     </label>
   <div class="edit-avatar-container">
   <input v-on:change="_saveNewAvatar" type='file' id="inputAvatar">
@@ -21,6 +22,7 @@
   </div>
   <button class="editUserinfo" v-on:click="_toggleProfileEdit"> {{editButtonText}} </button>
   <button v-if="editable" class="saveUserModifiedInfo" v-on:click="_saveUserModifiedInfo"> Save </button>
+  <button class="closeMyprofileMenu" v-on:click="_closeMyprofileMenu"> Close Profile </button>
   </section>
 </template>
 
@@ -62,7 +64,7 @@ export default {
       return this.hidden ? 'my-profile hidden' : 'my-profile'
     },
     editButtonText () {
-      return this.editable ? 'Cancel' : 'Edit'
+      return this.editable ? 'Return' : 'Edit'
     },
     avatarParsed () {
       return this.userAvatar ? `data:image/png;base64,${this.userAvatar}` : ''
@@ -99,7 +101,10 @@ export default {
       uploadUserAvatar(event.target.files[0])
         .then(this._onInfoRecovered)
         .catch(this._onInfoRecoveredError)
-    }   
+    },
+    _closeMyprofileMenu () {
+      this.$emit('closeMyProfileMenu')
+    },
   }
 }
 </script>
@@ -110,20 +115,25 @@ section.my-profile.hidden {
   transform: translateX(100%)
 }
 section.my-profile {
-  background-color: green;
+  border-radius: 10px;
+  background-color: lightgoldenrodyellow;
   display: flex;
   flex-direction: column;
   top: 0;
   right: 0;
   position: absolute;
   transition: transform 0.5s;
-  color: white;
-  height: 100%;
+   color:black;
+  height: 500px;
   width: 20%;
   min-width: 400px;
   align-items: center;
   padding: 5px;
   justify-content: space-around;
+  z-index: 1;
+}
+button, input{
+  outline: none;
 }
 div.my-profile p {
   margin: 2px;
@@ -146,5 +156,9 @@ section.my-profile img {
 }
 #inputAvatar {
   display: none;
+}
+.avatar-msg {
+  font-size: 10px;
+  font-style: oblique;
 }
 </style>

@@ -2,8 +2,8 @@
   <div class="note">
         <div :class="warningClass"> Quiere borrar esta nota?
           <div class="button-container">
-          <button v-on:click="dispatchDeleteEvent"> Yes, this note is a shit </button>
-          <button v-on:click="hideWarningDiv"> nO MOTHEFUCKER </button>
+          <button v-on:click="dispatchDeleteEvent"> Yes </button>
+          <button v-on:click="hideWarningDiv"> No </button>
           </div>
         </div>
         <p> Note number: {{index+1}} </p>

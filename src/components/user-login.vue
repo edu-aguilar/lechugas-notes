@@ -32,7 +32,7 @@ export default {
     },
     _onUserLoged (response) {
       this.$emit('showSpinner')
-      this._printLogingUserMessage('green', response.data.message)
+      this._printLogingUserMessage('white', response.data.message)
       this._setAuthToken(response.data.token)
       setTimeout(() => {
         this.$router.push('/profile')

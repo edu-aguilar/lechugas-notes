@@ -1,22 +1,33 @@
 <template>
-
 <div class="user-profile-view">
-  <h1>This is the profile view</h1>
+  <h1>This is your profile</h1>
+  <div class="buttons">
+ <div class="notes-buttons">
+   <b>Work with your notes:</b><br>
   <NoteFilter v-on:filterChanged="_filterNotes"></NoteFilter>
-  <button class="show-hide-profile-button" v-on:click="_showMyProfile"> {{profileButtonText}} </button>
+</div>
+<div class="create-note-container">
   <button :disabled='createNote' class="create-note-button" v-on:click="_openCreateNoteForm"> {{createNoteTextButton}}</button>
+  <CreateNote v-if="createNote" v-on:closecreatenoteform="_closeCreateNoteForm" v-on:createnote="_createNewNote" ></CreateNote>
+</div>
+<div class="account-buttons">
+  <img class="avatar" :src="avatarParsed">
+  <button class="show-hide-profile-button" v-on:click="_showMyProfile"> {{profileButtonText}} </button>
+  <button class="log-out-button" v-on:click="_logOut"> Logout </button>
+</div>
+</div>
      <div class="my-profile-container">
     <div v-if="createdNote" class="note-created"> Note created! </div>
-  <MyProfile :hidden='!showProfile'></MyProfile>
+  <MyProfile v-on:closeMyProfileMenu="_showMyProfile" :hidden='!showProfile'></MyProfile>
   <div>
-  <CreateNote v-if="createNote" v-on:closecreatenoteform="_closeCreateNoteForm" v-on:createnote="_createNewNote" ></CreateNote>
+
   <div v-if="!showEmptyNotesMessage" class="notes-container">
      <Note v-for="(note, index) in notes" :key="note._id" :notesFormated="note" :index="index" v-on:deleteNote="_deleteNote"></Note>
   </div>
   <div v-else class="no-notes-container">
-    No hay notas disponibles!
+    There are no notes available
     </div>
-    <button class="log-out-button" v-on:click="_logOut"> LogOut </button>
+    
 </div>
 </div>
 </div>
@@ -27,6 +38,7 @@ import CreateNote from '@/components/create-note.vue'
 import Note from '@/components/note.vue'
 import NoteFilter from '@/components/note-filter.vue'
 import MyProfile from '@/components/my-profile.vue'
+import { getUserAllInfo } from '@/user.js'
 import { getNotes, getFilteredNotes, deleteNote, createNewNote } from '@/notes.js'
 import { setPriority } from 'os';
 
@@ -44,7 +56,8 @@ export default {
       showProfile: false,
       showEmptyNotesMessage: false,
       createNote: false,
-      createdNote: false
+      createdNote: false,
+      userAvatar: ''
     }
   },
   computed: {
@@ -52,14 +65,20 @@ export default {
       return this.showProfile ? 'Hide profile' : 'Show profile'
     },
     createNoteTextButton () {
-      return this.createNote ? 'Creating a new note' : 'Create a new note'
+      return this.createNote ? 'Creating a new note...' : 'Create a new note'
+    },
+     avatarParsed () {
+      return this.userAvatar ? `data:image/png;base64,${this.userAvatar}` : ''
     }
   },
   created: function () {
+    getUserAllInfo()
+      .then(this._setAvatar)
     getNotes()
       .then(this._onNotesRecovered)
       .catch(this._onNotesRecoveredError)
   },
+
   methods: {
     _onNotesRecovered (response) {
       this._printNotes(response.data)
@@ -148,23 +167,84 @@ export default {
 }
 </script>
 <style>
+
+div .user-profile-view {
+  overflow: hidden;
+}
+h1 {
+  margin-top: 0px;
+  margin-bottom: 30px;
+}
+section.my-profile img {
+  object-fit: cover;
+  overflow: hidden;
+  background-size: cover;
+  background-image: url('../assets/avatar-default.jpg');
+  width: 150px;
+  height: 150px;
+  border-style: solid;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+button {
+  border-color: lightgray; 
+  width: auto;
+  border-radius: 0;
+  background-color: palegoldenrod;
+}
+select {
+  background-color: palegoldenrod;
+}
+div.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+div.notes-buttons { 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: left;
+  border: solid;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+div.account-buttons { 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: solid;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+div.user-profile-view {
+background-color: darkseagreen;
+ height: 100%;
+ flex-direction: column;
+ padding: 30px;
+}
 .my-profile-container {
-  position: relative;
+ height: auto;
 }
 .notes-and-myprofile-view {
   display: flex;
   flex-direction: row;
 }
 .notes-container {
+  background-color: darkseagreen;
   padding: 5px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   height: auto;
-  background-color: lightblue;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
+  padding-bottom: 20px;
 }
 .no-notes-container {
   padding: 5px;
@@ -176,5 +256,21 @@ div.note-created {
   margin: 10px auto;
   color: green;
   width: 100px;
+}
+.create-note-button {
+  width: 200px;
+  height: 30px;
+  position: relative
+}
+img.avatar {
+  object-fit: cover;
+  overflow: hidden;
+  background-size: cover;
+  background-image: url('../assets/avatar-default.jpg');
+  width: 120px;
+  height: 120px;
+  border-style: solid;
+  border-radius: 50%;
+  cursor: pointer;
 }
 </style>

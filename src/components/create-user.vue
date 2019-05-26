@@ -50,7 +50,7 @@ export default {
         .catch(this._onUserCreatedError)
     },
     _onUserCreated (response) {
-      this._printCreatingUserMessage('green', response.data.message)
+      this._printCreatingUserMessage('white', response.data.message)
       this.$emit('showSpinner')
       this._setAuthToken(response.data.token)
       setTimeout(() => {

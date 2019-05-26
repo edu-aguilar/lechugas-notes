@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <img alt="Home Icon" src="../assets/homeicon.png">
     <div class="tabs">
       <div class="header">
-        <button @click="toggleMode(options.CREATE)">crear usuario</button>
-        <button @click="toggleMode(options.LOGIN)">login usuario</button>
+        <button @click="toggleMode(options.CREATE)">Create User</button>
+        <button @click="toggleMode(options.LOGIN)">Login User</button>
       </div>
       <div class="content">
         <CreateUser v-on:showSpinner="_showSpinner" v-if="mode === options.CREATE"/>
@@ -53,24 +53,33 @@ export default {
 $vue-color: #42b983;
 $border: solid 2px $vue-color;
 
+img {
+  margin-bottom: 20px;
+}
+div.home {
+  background-image: url('../assets/bgimage.jpeg');
+  background-size: cover;
+  padding-top: 70px;
+  height: 100%;
+  font-size: 17px;
+  color: white;
+}
 .tabs {
   max-width: 700px;
   margin: 0 auto;
 
   .header {
     width: 100%;
-    border-bottom: $border;
-
+  
     button {
       width: 50%;
       padding: 0.5rem;
-      border-color: white;
-
-      & + button {
-        border-left: $border;
-      }
+      border-color: none;
+      outline: none;
     }
   }
+
+
   .lds-hourglass {
   display: inline-block;
   position: relative;
@@ -85,7 +94,7 @@ $border: solid 2px $vue-color;
   height: 0;
   margin: 6px;
   box-sizing: border-box;
-  $color: green;
+  $color: white;
   border: 26px solid $color;
   border-color: $color transparent $color transparent;
   animation: lds-hourglass 1.2s infinite;
